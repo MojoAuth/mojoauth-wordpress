@@ -1,0 +1,42 @@
+#toplevel_page_mojoAuth img{
+    width: 16px;
+    height: 16px;
+}
+#mojoauth_admin {
+    margin-top: 20px;
+}
+.mojoauth_logo {
+    width: 200px;
+}
+.mojoauth_config{
+    width: 70%;
+}
+.mojoauth_field{
+    margin: 20px;
+}
+#mojoauth_admin label {
+    width: 20%;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: bold;
+}
+#mojoauth_admin input,#mojoauth_admin textarea {
+    width: 79%;
+    display: inline;
+}
+.mojoauth_field .submit,.mojoauth_field .submit input{
+    float: right;
+    margin-top: -7px;
+}
+.mojoauth_field .submit {
+    width: 140px;
+}
+.mojoauth_verification.button {
+    position: absolute;
+    margin-left: -143px;
+    width: 142px;
+}
+.mojoauth_verification_message {
+    margin-left: 21%;
+    color: red;
+}
