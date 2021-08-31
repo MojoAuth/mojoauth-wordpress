@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name: MojoAuth
- * Plugin URI: https://mojoauth.com
+ * Plugin Name: MojoAuth Passwordless Authentication
+ * Plugin URI: https://github.com/MojoAuth/mojoauth-wordpress
  * Description: MojoAuth provides a secure and delightful experience to your customer with passwordless. Here, you'll find comprehensive guides and documentation to help you to start working with MojoAuth APIs.
  * Version: 1.0
  * Author: Mojoauth Team

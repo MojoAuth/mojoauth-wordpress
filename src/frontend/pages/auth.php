@@ -40,8 +40,9 @@ if (!class_exists('mojoAuth_Front')) {
          */
         public function mojoauth_login()
         {
-            $token = isset($_POST['mojoauth_token']) && !empty($_POST['mojoauth_token']) ? trim($_POST['mojoauth_token']) : false;
-            $email = isset($_POST['mojoauth_email']) && !empty($_POST['mojoauth_email']) ? trim($_POST['mojoauth_email']) : false;
+			$post = $_POST;
+            $token = isset($post['mojoauth_token']) ? trim($post['mojoauth_token']) : false;
+            $email = isset($post['mojoauth_email']) ? trim($post['mojoauth_email']) : false;
             if (!empty($token) && !empty($email)) {
                 //call API
                 require_once(MOJOAUTH_ROOT_DIR."mojoAuthWPClient.php");
