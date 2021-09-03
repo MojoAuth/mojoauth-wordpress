@@ -56,6 +56,19 @@ if (!class_exists('mojoAuthPlugin')) {
         {
             update_option('mojoauth_option', '');
         }
+        /**
+         * Post Data validation
+         */
+        public static function data_validation($key, $post){
+            return isset($post[$key]) && !empty($post[$key]) ? sanitize_text_field(esc_html(wp_kses(trim($post[$key])))) : false;
+        }
+        /**
+         * Post Email Data validation
+         */
+        public static function email_validation($key, $post){
+            return isset($post[$key]) && !empty($post[$key]) ? sanitize_email(esc_html(wp_kses(trim($post[$key])))) : false;
+        }
+        
     }
 
     new mojoAuthPlugin();

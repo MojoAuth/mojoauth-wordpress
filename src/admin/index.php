@@ -126,8 +126,7 @@ if (!class_exists('mojoAuth_Admin')) {
          */
         public function mojoauth_apikey_verification()
         {
-			$post = $_POST;
-            $apikey = isset($post['mojoauth_apikey']) && !empty($post['mojoauth_apikey']) ? trim($post['mojoauth_apikey']) : false;
+            $apikey = mojoAuthPlugin::data_validation('mojoauth_apikey', $_POST);
             require_once(MOJOAUTH_ROOT_DIR."mojoAuthWPClient.php");
             $client = new mojoAuthWPClient($apikey);
             wp_die(json_encode($client->getPublicKey()));
