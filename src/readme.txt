@@ -37,7 +37,8 @@ After downloading the plugin, you will find MojoAuth located under Plugins.
 Activate your plugin in WordPress by clicking on "MojoAuth".
 
 == Screenshots ==
-1. **Social Sharing Admin UI**: This is an example presentation social sharing. There are multiple themes available.
+1. **MojoAuth Admin UI**: This is an example presentation MojoAuth Admin UI.
+2. **MojoAuth Login UI**: This is an example presentation MojoAuth Login UI.
 
 == Frequently Asked Questions ==
 1. How MojoAuth is secure?
