@@ -1,4 +1,12 @@
-# mojoauth-wordpress
+<p align="center">
+  <a href="https://www.mojoauth.com">
+    <img alt="MojoAuth" src="https://mojoauth.com/assets/images/logo.svg" width="200" />
+  </a>
+</p>
+
+<h1 align="center">
+  MojoAuth Wordpress SDK
+</h1>
 Wordpress plugin for MojoAuth
 
 ## Documentation 
@@ -17,3 +25,13 @@ Wordpress plugin for MojoAuth
 - On the Setting, input your API Key, And click on ”Get Public Certificate” to get the Certificate Automatically.
 - After getting successfully ”Public Certificate”
 - Click ’Save Settings’.
+
+## How to contribute
+
+We appreciate all kinds of contributions from anyone, be it finding an issue or writing a blog.
+
+Please check the [contributing guide](CONTRIBUTING.md) to become a contributor.
+
+## License
+
+For more information on licensing, please refer to [License](https://github.com/LoginRadius/engineering-portal/blob/master/LICENSE)
