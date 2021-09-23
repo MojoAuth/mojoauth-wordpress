@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-  MojoAuth Wordpress SDK
+  MojoAuth Wordpress
 </h1>
 Wordpress plugin for MojoAuth
 
