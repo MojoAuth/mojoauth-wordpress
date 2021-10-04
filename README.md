@@ -23,7 +23,7 @@ Wordpress plugin for MojoAuth
 ## Activation
 - To turn on the plugin, navigate to WordPress Admin Panel->;MojoAuth
 - On the Setting, input your API Key, And click on ”Get Public Certificate” to get the Certificate Automatically.
-- After getting successfully ”Public Certificate”
+- After getting ”Public Certificate” successfully
 - Click ’Save Settings’.
 
 ## How to contribute
