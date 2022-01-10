@@ -1,11 +1,10 @@
-
 === MojoAuth Passwordless Authentication ===
 Contributors: MojoAuth
 Donate link: https://mojoauth.com/
 Tags: WordPress plugin, multisite, Passwordless, Authentication, Auth plugins, Login, SignIn, SignUp
 Requires at least: 3.4
 Tested up to: 5.8
-Stable tag: 1.1
+Stable tag: 1.2
 Requires PHP: 5.6
 License: GPLv2 or later
 
@@ -71,6 +70,10 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 
 == Changelog ==
 
+= 1.2 =
+* Localization with 5 languages
+* Handle magic link redirection
+
 = 1.1 =
 * Messaging update
 
@@ -78,6 +81,10 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.2 =
+* Localization with 5 languages
+* Handle magic link redirection
 
 = 1.1 =
 * Messaging update

@@ -4,7 +4,7 @@
  * Plugin Name: MojoAuth Passwordless Authentication
  * Plugin URI: https://github.com/MojoAuth/mojoauth-wordpress
  * Description: MojoAuth provides a secure and delightful experience to your customer with passwordless. Here, you'll find comprehensive guides and documentation to help you to start working with MojoAuth APIs.
- * Version: 1.1
+ * Version: 1.2
  * Author: Mojoauth Team
  * Author URI: https://mojoauth.com
  * License: GPL2+
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 // If this file is called directly, abort.
 define('MOJOAUTH_ROOT_DIR', plugin_dir_path(__FILE__));
 define('MOJOAUTH_ROOT_URL', plugin_dir_url(__FILE__));
-define('MOJOAUTH_PLUGIN_VERSION', '1.1');
+define('MOJOAUTH_PLUGIN_VERSION', '1.2');
 define('MOJOAUTH_ROOT_SETTING_LINK', plugin_basename(__FILE__));
 
 
@@ -60,13 +60,13 @@ if (!class_exists('mojoAuthPlugin')) {
          * Post Data validation
          */
         public static function data_validation($key, $post){
-            return isset($post[$key]) && !empty($post[$key]) ? sanitize_text_field(esc_html(wp_kses(trim($post[$key])))) : false;
+            return isset($post[$key]) && !empty($post[$key]) ? sanitize_text_field(esc_html(trim($post[$key]))) : false;
         }
         /**
          * Post Email Data validation
          */
         public static function email_validation($key, $post){
-            return isset($post[$key]) && !empty($post[$key]) ? sanitize_email(esc_html(wp_kses(trim($post[$key])))) : false;
+            return isset($post[$key]) && !empty($post[$key]) ? sanitize_email(esc_html(trim($post[$key]))) : false;
         }
         
     }

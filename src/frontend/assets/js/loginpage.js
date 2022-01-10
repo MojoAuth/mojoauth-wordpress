@@ -15,7 +15,10 @@ var mojoauthInterval = setInterval(function () {
         }
 
 
-        const mojoauth = new MojoAuth(mojoauthajax.apikey);
+        const mojoauth = new MojoAuth(mojoauthajax.apikey,{
+			language: mojoauthajax.language,
+			redirect_url: mojoauthajax.redirect,
+		});
         mojoauth.signInWithMagicLink().then(response => {
 			if (response.authenticated == true) {
                     var data = {
@@ -24,9 +27,11 @@ var mojoauthInterval = setInterval(function () {
                         'mojoauth_email': response.user.identifier      // We pass php values differently!
                     };
                     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-                    jQuery.post(mojoauthajax.ajax_url, data, function (wpresponse) {
-                        window.location.href = mojoauthajax.redirect
-                    });
+					setInterval(function(){
+						jQuery.post(mojoauthajax.ajax_url, data, function (wpresponse) {
+							window.location.href = mojoauthajax.redirect
+						});
+					},2000);
                 }
 		});
     }
