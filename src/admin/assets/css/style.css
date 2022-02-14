@@ -10,6 +10,26 @@
 }
 .mojoauth_config{
     width: 70%;
+    float: left;
+    background: #fff;
+    padding: 10px;
+    margin-right: 8px;
+}
+.mojoauth_shortcode_section {
+    float: left;
+    width: 23%;
+    background: #fff;
+    padding: 10px;
+}
+.mojoauth_shortcode_section input {
+    width: 100% !important;
+}
+#mojoauthloginformshortcodemessage{
+	background: #00800073;
+    color: #fff;
+    padding: 5px;
+    border: 1px solid #008000;
+    margin-top: 10px;
 }
 .mojoauth_field{
     margin: 20px;

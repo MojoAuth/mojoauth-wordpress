@@ -3,8 +3,8 @@ Contributors: MojoAuth
 Donate link: https://mojoauth.com/
 Tags: WordPress plugin, multisite, Passwordless, Authentication, Auth plugins, Login, SignIn, SignUp
 Requires at least: 3.4
-Tested up to: 5.8
-Stable tag: 1.2
+Tested up to: 5.9
+Stable tag: 2.0
 Requires PHP: 5.6
 License: GPLv2 or later
 
@@ -34,11 +34,11 @@ After downloading the plugin, you will find MojoAuth located under Plugins.
 Activate your plugin in WordPress by clicking on "MojoAuth".
 
 == Screenshots ==
-1. Scr1
-2. Scr2
-3. Scr3
-4. Scr4
-5. Scr5
+1. Screenshot1 : Plugin Setting Page
+2. Screenshot2 : Login Page
+3. Screenshot3 : Submit Login Page
+4. Screenshot4 : Email at your email provider
+5. Screenshot5 : Success Login Page
 
 == Support ==
 

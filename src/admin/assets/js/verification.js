@@ -1,4 +1,26 @@
 jQuery(document).ready(function ($) {
+	$('#mojoauthloginformshortcodeeditor').click(function(){
+		var input = document.getElementById('mojoauthloginformshortcodeeditor');
+		  input.focus();
+		  input.select();
+		document.execCommand('copy');
+		$('#mojoauthloginformshortcodemessage').remove();
+		$("<div id='mojoauthloginformshortcodemessage'>Copied!</div>").insertAfter(input);
+		setTimeout(function(){
+			$('#mojoauthloginformshortcodemessage').remove();
+		},5000);
+	});
+	$('#mojoauthloginformshortcodephp').click(function(){
+		var input = document.getElementById('mojoauthloginformshortcodephp');
+		  input.focus();
+		  input.select();
+		document.execCommand('copy');
+		$('#mojoauthloginformshortcodemessage').remove();
+		$("<div id='mojoauthloginformshortcodemessage'>Copied!</div>").insertAfter(input);
+		setTimeout(function(){
+			$('#mojoauthloginformshortcodemessage').remove();
+		},5000);
+	});
     $('.mojoauth_verification').click(function () {
         $(this).html('Loading');
         $('.mojoauth_verification').attr('disabled','disabled');

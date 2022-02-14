@@ -13,6 +13,8 @@ if (!defined('ABSPATH')) {
     settings_errors();
     ?><br/>
     <div class="mojoauth_config">
+		<h2>Configuration</h2>
+	<hr/>
         <form method="post" action="options.php"> 
             <?php
             $mojoauth_option = get_option('mojoauth_option');
@@ -53,8 +55,8 @@ xxxxxxxx
 					'de'=>'German',
 					'fr'=>'French',
 					'es'=>'Spanish');
+					$selectedLanguage = isset($mojoauth_option['language']) && !empty($mojoauth_option['language'])?trim($mojoauth_option['language']):'en';
 						foreach($mojoAuthLanguages as $lan=>$language){
-							$selectedLanguage = isset($mojoauth_option['language']) && !empty($mojoauth_option['language'])?trim($mojoauth_option['language']):'en';
 							?>
 							<option value="<?php _e($lan,'mojoauth');?>"
 							<?php
@@ -70,10 +72,43 @@ xxxxxxxx
 				</select>
 				<div class="mojoauth_help_text"><?php _e('Localize your website according to your country or region. Check the <a href="https://mojoauth.com/docs/configurations/localization/" target="_blank">supported languages</a> page.','mojoauth');?></div>
             </div>
+			<div class="mojoauth_field">
+                <label for="mojoauth_integrate_method">
+                <?php _e('Integrate Method:','mojoauth');?>
+                </label>
+				<select id="mojoauth_integrate_method" name="mojoauth_option[integrate_method]">
+					<?php
+					$mojoAuthIntegrateMethod = array('link'=>'Magic Link',
+					'otp'=>'Email OTP');
+					$selectedIntegrateMethod = isset($mojoauth_option['integrate_method']) && !empty($mojoauth_option['integrate_method'])?trim($mojoauth_option['integrate_method']):'link';
+						foreach($mojoAuthIntegrateMethod as $key=>$value){
+							?>
+							<option value="<?php _e($key,'mojoauth');?>"
+							<?php
+							if($selectedIntegrateMethod==$key){
+								?> selected="selected"<?php
+							}
+							?>
+							><?php _e($value,'mojoauth');?></option>
+							<?php
+						}					
+					?>
+					
+				</select>
+				<div class="mojoauth_help_text"><?php _e('Select the authentication method with which users will authenticate. refer <a href="https://mojoauth.com/docs/integrations/wordpress/" target="_blank">here</a>.','mojoauth');?></div>
+            </div>
             <hr>
             <div class="mojoauth_field">
                 <?php submit_button(); ?>
             </div>
         </form>
     </div>
+	<div class="mojoauth_shortcode_section">
+	<h2>Shortcode</h2>
+	<hr/>
+	<h4>Editor Shortcode</h4>
+	<input type="text" value="[mojoauth]" id="mojoauthloginformshortcodeeditor" readonly="readonly"	/>
+	<h4>PHP Shortcode</h4>
+	<input type="text" value="&lt;?php echo do_shortcode('[mojoauth]'); ?&gt;" id="mojoauthloginformshortcodephp" readonly="readonly"	/>
+	</div>
 </div>
