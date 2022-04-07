@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
             'mojoauth_apikey': $('#mojoauth_apikey').val()
         };
         $.post(mojoauthadminajax.ajax_url, data, function (wpresponse) {
-            wpresponse = JSON.parse(wpresponse);
+            wpresponse = JSON.parse(JSON.parse(wpresponse).response);
             clearInterval(validationLoading);
             $('.mojoauth_verification').html('Get Public Certificate');
             $('.mojoauth_verification').removeAttr('disabled');
@@ -44,7 +44,7 @@ jQuery(document).ready(function ($) {
                 $('#mojoauth_public_key').val(wpresponse.data);
             }else{
                 $('#mojoauth_public_key').val('');
-                $('.mojoauth_verification_message').html(wpresponse.message).show('slow');
+                $('.mojoauth_verification_message').html(wpresponse.description).show('slow');
                 setTimeout(function(){
                     $('.mojoauth_verification_message').hide('slow');
                 },20000);

@@ -103,24 +103,7 @@ class mojoAuthAPI
      */
     public function getPublicKey()
     {
-		if(!extension_loaded('chilkat_9_5_0')){
-			return array("status_code"=>500,"message"=>'chilkat_9_5_0 is not enabled, enable chilkat_9_5_0 to get response from https://www.chilkatsoft.com/installPhpExtension.asp or use Public Certificate manually.');
-			exit;
-		}else{
-			$jwks = $this->JWKS();
-			$jwksResponse = isset($jwks["response"])?json_decode($jwks["response"]):false;
-			if(!$jwksResponse->description){
-				require_once(__DIR__."/chilkat_9_5_0.php");
-				$pubKey = new CkPublicKey();
-				$success = $pubKey->LoadFromString(json_encode($jwksResponse->keys[0]));
-				if ($success != true) {
-					return array("status_code"=>500,"message"=>$pubKey->lastErrorText());
-					exit;
-				}
-				return array("status_code"=>$jwks["status_code"],"data"=>$pubKey->getPem(false));
-			}
-			return array("status_code"=>($jwksResponse->code),"message"=>($jwksResponse->description));
-		}
+		return $this->request("token/public_key?api_key=".$this->getApikey());
     }
     /**
      * Decode UserProfile From AccessToken
