@@ -54,7 +54,9 @@ xxxxxxxx
 					'it'=>'Italian',
 					'de'=>'German',
 					'fr'=>'French',
-					'es'=>'Spanish');
+					'es'=>'Spanish',
+					'pt'=>'Portuguese',
+					'ru'=>'Russian');
 					$selectedLanguage = isset($mojoauth_option['language']) && !empty($mojoauth_option['language'])?trim($mojoauth_option['language']):'en';
 						foreach($mojoAuthLanguages as $lan=>$language){
 							?>
