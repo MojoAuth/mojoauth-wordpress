@@ -6,98 +6,87 @@ if (!defined('ABSPATH')) {
 ?>
 <div id="mojoauth_admin">
     <div class="mojoauth_logo">
-        <img src="<?php echo MOJOAUTH_ROOT_URL . 'admin/assets/images/logo.svg'?>" alt="MojoAuth" title="MojoAuth">
+        <img src="<?php echo MOJOAUTH_ROOT_URL . 'admin/assets/images/logo.svg' ?>" alt="MojoAuth" title="MojoAuth">
     </div>
     <br/>
     <?php
     settings_errors();
     ?><br/>
     <div class="mojoauth_config">
-		<h2>Configuration</h2>
-	<hr/>
+        <h2>Configuration</h2>
+        <hr/>
         <form method="post" action="options.php"> 
             <?php
             $mojoauth_option = get_option('mojoauth_option');
-            settings_fields('mojoauth_option');?>
+            $integrate_method_email = isset($mojoauth_option["integrate_method_email"]) && !empty($mojoauth_option["integrate_method_email"]) ? trim($mojoauth_option["integrate_method_email"]) : "";
+            $integrate_method_email_type = isset($mojoauth_option["integrate_method_email_type"]) && !empty($mojoauth_option["integrate_method_email_type"]) ? trim($mojoauth_option["integrate_method_email_type"]) : "";
+            $integrate_method_sms = isset($mojoauth_option["integrate_method_sms"]) && !empty($mojoauth_option["integrate_method_sms"]) ? trim($mojoauth_option["integrate_method_sms"]) : "";
+            if (empty($integrate_method_email) && empty($integrate_method_sms)) {
+                $integrate_method_email = 'email';
+                $integrate_method_email_type = 'magiclink';
+            }
+            settings_fields('mojoauth_option');
+            ?>
             <div class="mojoauth_field">
                 <label for="mojoauth_apikey">
-                <?php _e('APIkey:','mojoauth');?>
+                    <?php _e('APIkey:', 'mojoauth'); ?>
                 </label>
-                <input type="text" id="mojoauth_apikey" name="mojoauth_option[apikey]" value="<?php echo isset($mojoauth_option['apikey'])?esc_attr($mojoauth_option['apikey']):"";?>" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx">
-				<div class="mojoauth_verification button" disabled><?php _e('Get Public Certificate','mojoauth');?></div>
-				<div class="mojoauth_help_text"><?php _e('<a href="https://mojoauth.com/signin" target="_blank">Log in to MojoAuth</a> and get your API key under the <a href="https://mojoauth.com/dashboard/overview" target="_blank">overview</a> section.','mojoauth');?></div>
+                <input type="text" id="mojoauth_apikey" name="mojoauth_option[apikey]" value="<?php echo isset($mojoauth_option['apikey']) ? esc_attr($mojoauth_option['apikey']) : ""; ?>" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx">
+                <div class="mojoauth_verification button" disabled><?php _e('Verify', 'mojoauth'); ?></div>
+                <div class="mojoauth_help_text"><?php _e('<a href="https://mojoauth.com/signin" target="_blank">Log in to MojoAuth</a> and get your API key under the <a href="https://mojoauth.com/dashboard/overview" target="_blank">overview</a> section.', 'mojoauth'); ?></div>
                 <div class="mojoauth_verification_message" style="display:none;"></div>
             </div>
-            <div class="mojoauth_field">
+            <div class="mojoauth_field mojoauth_active">
                 <label for="mojoauth_public_key">
-                    <?php _e('Public Certificate:','mojoauth');?>
+                    <?php _e('Public Certificate:', 'mojoauth'); ?>
                 </label>
                 <textarea id="mojoauth_public_key" name="mojoauth_option[public_key]" rows="8" placeholder="-----BEGIN PUBLIC KEY-----
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxx
------END PUBLIC KEY-----
-"><?php echo isset($mojoauth_option['public_key'])?esc_attr($mojoauth_option['public_key']):"";?></textarea>
-<div class="mojoauth_help_text"><?php _e('Get your public certificate by clicking on the Get Public Certificate button. This certificate will be used to verify the token.','mojoauth');?></div>
+                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                          xxxxxxxx
+                          -----END PUBLIC KEY-----
+                          "><?php echo isset($mojoauth_option['public_key']) ? esc_attr($mojoauth_option['public_key']) : ""; ?></textarea>
+                <div class="mojoauth_help_text"><?php _e('Get your public certificate by clicking on the Verify button. This certificate will be used to verify the token.', 'mojoauth'); ?></div>
             </div>
-			<div class="mojoauth_field">
+            <div class="mojoauth_field mojoauth_active">
                 <label for="mojoauth_language">
-                <?php _e('Language:','mojoauth');?>
+                    <?php _e('Language:', 'mojoauth'); ?>
                 </label>
-				<select id="mojoauth_language" name="mojoauth_option[language]">
-					<?php
-					$mojoAuthLanguages = array('en'=>'English',
-					'it'=>'Italian',
-					'de'=>'German',
-					'fr'=>'French',
-					'es'=>'Spanish',
-					'pt'=>'Portuguese',
-					'ru'=>'Russian');
-					$selectedLanguage = isset($mojoauth_option['language']) && !empty($mojoauth_option['language'])?trim($mojoauth_option['language']):'en';
-						foreach($mojoAuthLanguages as $lan=>$language){
-							?>
-							<option value="<?php _e($lan,'mojoauth');?>"
-							<?php
-							if($selectedLanguage==$lan){
-								?> selected="selected"<?php
-							}
-							?>
-							><?php _e($language,'mojoauth');?></option>
-							<?php
-						}					
-					?>
-					
-				</select>
-				<div class="mojoauth_help_text"><?php _e('Localize your website according to your country or region. Check the <a href="https://mojoauth.com/docs/configurations/localization/" target="_blank">supported languages</a> page.','mojoauth');?></div>
+                <select id="mojoauth_language" name="mojoauth_option[language]">
+                </select>
+                <div class="mojoauth_help_text"><?php _e('Localize your website according to your country or region. Check the <a href="https://mojoauth.com/docs/configurations/localization/" target="_blank">supported languages</a> page.', 'mojoauth'); ?></div>
             </div>
-			<div class="mojoauth_field">
+            <div class="mojoauth_field mojoauth_active">
                 <label for="mojoauth_integrate_method">
-                <?php _e('Integrate Method:','mojoauth');?>
+                    <?php _e('Integrate Method:', 'mojoauth'); ?>
                 </label>
-				<select id="mojoauth_integrate_method" name="mojoauth_option[integrate_method]">
-					<?php
-					$mojoAuthIntegrateMethod = array('link'=>'Magic Link',
-					'otp'=>'Email OTP');
-					$selectedIntegrateMethod = isset($mojoauth_option['integrate_method']) && !empty($mojoauth_option['integrate_method'])?trim($mojoauth_option['integrate_method']):'link';
-						foreach($mojoAuthIntegrateMethod as $key=>$value){
-							?>
-							<option value="<?php _e($key,'mojoauth');?>"
-							<?php
-							if($selectedIntegrateMethod==$key){
-								?> selected="selected"<?php
-							}
-							?>
-							><?php _e($value,'mojoauth');?></option>
-							<?php
-						}					
-					?>
-					
-				</select>
-				<div class="mojoauth_help_text"><?php _e('Select the authentication method with which users will authenticate. refer <a href="https://mojoauth.com/docs/integrations/wordpress/" target="_blank">here</a>.','mojoauth');?></div>
+                <div class="mojoauth_rightfield mojoauth_active">
+                    <input type="checkbox" id="mojoauth_integrate_method_email" name="mojoauth_option[integrate_method_email]" value="email" <?php echo (($integrate_method_email == "email") ? 'checked="checked"' : "") ?>/>
+                    <label for="mojoauth_integrate_method_email">
+                        <?php _e('Email Authentication', 'mojoauth'); ?>
+                    </label>
+                    <br/>
+                    <div id="mojoauth_integrate_method_email_active" class="mojoauth_subfield">
+                        <label for="mojoauth_integrate_method_email_link">
+                            <input type="radio" id="mojoauth_integrate_method_email_link" name="mojoauth_option[integrate_method_email_type]" value="magiclink" <?php echo (($integrate_method_email_type == "magiclink") ? 'checked="checked"' : "") ?>/>
+                            <?php _e('Email Magic Link', 'mojoauth'); ?>
+                        </label>
+                        <label for="mojoauth_integrate_method_email_otp">
+                            <input type="radio" id="mojoauth_integrate_method_email_otp" name="mojoauth_option[integrate_method_email_type]" value="otp" <?php echo (($integrate_method_email_type == "otp") ? 'checked="checked"' : "") ?>/>
+                            <?php _e('Email OTP', 'mojoauth'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="mojoauth_rightfield mojoauth_active">
+                    <label for="mojoauth_integrate_method_sms">
+                        <input type="checkbox" id="mojoauth_integrate_method_sms" name="mojoauth_option[integrate_method_sms]" value="sms" <?php echo (($integrate_method_sms == "sms") ? 'checked="checked"' : "") ?>/>
+                        <?php _e('SMS Authentication', 'mojoauth'); ?>
+                    </label>
+                </div>
             </div>
             <hr>
             <div class="mojoauth_field">
@@ -105,12 +94,21 @@ xxxxxxxx
             </div>
         </form>
     </div>
-	<div class="mojoauth_shortcode_section">
-	<h2>Shortcode</h2>
-	<hr/>
-	<h4>Editor Shortcode</h4>
-	<input type="text" value="[mojoauth]" id="mojoauthloginformshortcodeeditor" readonly="readonly"	/>
-	<h4>PHP Shortcode</h4>
-	<input type="text" value="&lt;?php echo do_shortcode('[mojoauth]'); ?&gt;" id="mojoauthloginformshortcodephp" readonly="readonly"	/>
-	</div>
+    <div class="mojoauth_rightsection">
+         <div class="mojoauth_shortcode_section">
+            <h2>Help</h2>
+            <hr/>
+            <p>Configure your desired Social provider i.e. Google, Facebook, Apple, etc. from <a href="https://mojoauth.com/dashboard/marketplace/list" target="_blank">Dashboard</a> to use Social Login with your provider</p>
+        </div>
+
+        <div class="mojoauth_shortcode_section">
+            <h2>Shortcode</h2>
+            <hr/>
+            <h4>Editor Shortcode</h4>
+            <input type="text" value="[mojoauth]" id="mojoauthloginformshortcodeeditor" readonly="readonly"	/>
+            <h4>PHP Shortcode</h4>
+            <input type="text" value="&lt;?php echo do_shortcode('[mojoauth]'); ?&gt;" id="mojoauthloginformshortcodephp" readonly="readonly"	/>
+
+        </div>
+    </div>
 </div>

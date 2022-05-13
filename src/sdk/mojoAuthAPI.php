@@ -1,139 +1,152 @@
 <?php
-require_once(__DIR__."/lib/vendor/autoload.php");
+
+require_once(__DIR__ . "/lib/vendor/autoload.php");
+
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\UnencryptedToken;
 use Firebase\JWT\JWT;
-class mojoAuthAPI
-{
+Firebase\JWT\JWT::$leeway = 5;
+
+class mojoAuthAPI {
+
     public $apiurl;
     public $apikey;
 
-    public function __construct($apikey)
-    {
+    public function __construct($apikey) {
         $apiurl = "https://api.mojoauth.com/";
         $this->setApiurl($apiurl);
         $this->setApikey($apikey);
     }
+
     /**
      * Get API URL
      */
-    public function getApiurl()
-    {
+    public function getApiurl() {
         return $this->apiurl;
     }
+
     /**
      * Set API URL
      */
-    public function setApiurl($url)
-    {
+    public function setApiurl($url) {
         return $this->apiurl = $url;
     }
+
     /**
      * Get API key
      */
-    public function getApikey()
-    {
+    public function getApikey() {
         return $this->apikey;
     }
+
     /**
      * Set API key
      */
-    public function setApikey($apikey)
-    {
+    public function setApikey($apikey) {
         return $this->apikey = $apikey;
     }
+
     /**
      * Send Link on Email
      */
-    public function sendLinkOnEmail($email)
-    {
+    public function sendLinkOnEmail($email) {
         return $this->request("users/magiclink", array(
-            "method"     => "POST",
-            "headers"=>array("X-API-Key"=>$this->getApikey(),
-            'Content-Type' => 'application/json; charset=utf-8'),
-            "body"=>json_encode(array("email"=>$email))
-      ));
+                    "method" => "POST",
+                    "headers" => array("X-API-Key" => $this->getApikey(),
+                        'Content-Type' => 'application/json; charset=utf-8'),
+                    "body" => json_encode(array("email" => $email))
+        ));
     }
+
     /**
      * Check Login Status
      */
-    public function checkLoginStatus($state_id)
-    {
-        return $this->request("users/status?state_id=".$state_id, array(
-            "method"     => "GET",
-            "headers"=>array("X-API-Key"=>$this->getApikey())
-      ));
+    public function checkLoginStatus($state_id) {
+        return $this->request("users/status?state_id=" . $state_id, array(
+                    "method" => "GET",
+                    "headers" => array("X-API-Key" => $this->getApikey())
+        ));
     }
+
     /**
      * Send Email OTP
      */
-    public function sendEmailOTP($email)
-    {
+    public function sendEmailOTP($email) {
         return $this->request("users/emailotp", array(
-            "method"     => "POST",
-            "headers"=>array("X-API-Key"=>$this->getApikey(),
-            'Content-Type' => 'application/json; charset=utf-8'),
-            "body"=>json_encode(array("email"=>$email))
-      ));
+                    "method" => "POST",
+                    "headers" => array("X-API-Key" => $this->getApikey(),
+                        'Content-Type' => 'application/json; charset=utf-8'),
+                    "body" => json_encode(array("email" => $email))
+        ));
     }
+
     /**
      * Verify Email OTP
      */
-    public function verifyEmailOTP($state_id, $otp)
-    {
+    public function verifyEmailOTP($state_id, $otp) {
         return $this->request("users/emailotp/verify", array(
-            "method"     => "POST",
-            "headers"=>array("X-API-Key"=>$this->getApikey(),
-            'Content-Type' => 'application/json; charset=utf-8'),
-            "body"=>json_encode(array("state_id"=>$state_id,"otp"=>$otp))
-      ));
+                    "method" => "POST",
+                    "headers" => array("X-API-Key" => $this->getApikey(),
+                        'Content-Type' => 'application/json; charset=utf-8'),
+                    "body" => json_encode(array("state_id" => $state_id, "otp" => $otp))
+        ));
     }
+
     /**
      * Get JWKS
      */
-    public function JWKS()
-    {
+    public function JWKS() {
         return $this->request("token/jwks", array(
-            "method"     => "GET",
-            "headers"=>array("X-API-Key"=>$this->getApikey())
-      ));
+                    "method" => "GET",
+                    "headers" => array("X-API-Key" => $this->getApikey())
+        ));
     }
+
     /**
      * Get Public Key / Certificate from MojoAuth Server
      */
-    public function getPublicKey()
-    {
-		return $this->request("token/public_key?api_key=".$this->getApikey());
+    public function getPublicKey() {
+        return $this->request("token/public_key?api_key=" . $this->getApikey());
     }
+
+    /**
+     * Get Api Info from MojoAuth Server
+     */
+    public function getApiInfo() {
+        return $this->request("projects/branding", array(
+                    "method" => "GET",
+                    "headers" => array("X-API-Key" => $this->getApikey())
+        ));
+    }
+
     /**
      * Decode UserProfile From AccessToken
      */
-    public function getUserProfileData($access_token, $publicKey)
-    {
-		return JWT::decode($access_token, $publicKey, array('RS256'));
+    public function getUserProfileData($access_token, $publicKey) {
+        return JWT::decode($access_token, $publicKey, array('RS256'));
     }
+
     /**
      * http request from cURL and FSOCKOPEN
      */
-    public function request($endPointPath, $args = array())
-    {
+    public function request($endPointPath, $args = array()) {
         if (in_array('curl', get_loaded_extensions())) {
             $response = $this->curlRequest($endPointPath, $args);
         } elseif (ini_get('allow_url_fopen')) {
             $response = $this->fsockopenRequest($endPointPath, $args);
         } else {
-            $response = array("status_code"=>500,"message"=>'cURL or FSOCKOPEN is not enabled, enable cURL or FSOCKOPEN to get response from mojoAuth API.');
+            $response = array("status_code" => 500, "message" => 'cURL or FSOCKOPEN is not enabled, enable cURL or FSOCKOPEN to get response from mojoAuth API.');
         }
         return $response;
     }
+
     /**
      * http request from FSOCKOPEN
      */
-    private function fsockopenApiMethod($endPointPath, $options)
-    {
+    private function fsockopenApiMethod($endPointPath, $options) {
         $method = isset($options['method']) ? strtoupper($options['method']) : 'GET';
         $data = isset($options['body']) ? $options['body'] : array();
-        
+
         $optionsArray = array('http' =>
             array(
                 'method' => strtoupper($method),
@@ -149,37 +162,37 @@ class mojoAuthAPI
         }
 
         foreach ($options['headers'] as $k => $val) {
-            $optionsArray['http']['header'] .= "\r\n" . $k.":".$val;
+            $optionsArray['http']['header'] .= "\r\n" . $k . ":" . $val;
         }
 
         $context = stream_context_create($optionsArray);
-        $jsonResponse['response'] = file_get_contents($this->getApiurl().$endPointPath, false, $context);
+        $jsonResponse['response'] = file_get_contents($this->getApiurl() . $endPointPath, false, $context);
         $parseHeaders = Functions::parseHeaders($http_response_header);
         if (isset($parseHeaders['Content-Encoding']) && $parseHeaders['Content-Encoding'] == 'gzip') {
             $jsonResponse['response'] = gzdecode($jsonResponse['response']);
         }
         $jsonResponse['status_code'] = $parseHeaders['reponse_code'];
-        
+
         return $jsonResponse;
     }
+
     /**
      * http request from cURL
      */
-    private function curlRequest($endPointPath, $options)
-    {
+    private function curlRequest($endPointPath, $options) {
         $method = isset($options['method']) ? strtoupper($options['method']) : 'GET';
         $data = isset($options['body']) ? $options['body'] : array();
-        
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->getApiurl().$endPointPath);
+        curl_setopt($ch, CURLOPT_URL, $this->getApiurl() . $endPointPath);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
         curl_setopt($ch, CURLOPT_TIMEOUT, 50);
         curl_setopt($ch, CURLOPT_ENCODING, "gzip");
         $headerArray = array();
         foreach ($options['headers'] as $k => $val) {
-            $headerArray[] = $k.":".$val;
+            $headerArray[] = $k . ":" . $val;
         }
-        
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headerArray);
 
         if (in_array($method, array('POST'))) {
@@ -193,7 +206,7 @@ class mojoAuthAPI
         $output = array();
         $output['response'] = curl_exec($ch);
         $output['status_code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
+
         if (curl_error($ch)) {
             $output['response'] = curl_error($ch);
         }
@@ -201,4 +214,5 @@ class mojoAuthAPI
 
         return $output;
     }
+
 }

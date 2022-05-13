@@ -4,7 +4,7 @@ Donate link: https://mojoauth.com/
 Tags: Authentication, Social Login, Email Magic link, Email OTP, SMS Authentication, WordPress plugin, multisite, Passwordless, Auth plugins, Login, SignIn, SignUp, Google Login, Facebook Login, Apple login, phone login, OTP Login, woocommerce
 Requires at least: 3.4
 Tested up to: 5.9
-Stable tag: 2.2
+Stable tag: 2.3
 Requires PHP: 5.6
 License: GPLv2 or later
 
@@ -14,7 +14,7 @@ MojoAuth provides a secure and delightful experience to your customer with passw
 
 The [MojoAuth](https://mojoauth.com) Passwordless Authentication WordPress plugin replaces standard WordPress login forms with the passwordless authentication method. It provides a robust and secure passwordless authentication mechanism to your WordPress site that offers the users a way to verify themselves while not having to remember or manually type passwords, which in turn provides stronger security and fewer breaches.
 
-Adding a passwordless authentication mechanism will help to create additional barriers to secure accounts of users. We updated the conventional password method of login with a safer authentication method, for example, login through OTP, Magic Link and WebAuthn. This likewise cuts the additional progression of you fumbling over your failed to remember password.
+Adding a passwordless authentication mechanism will help to create additional barriers to secure accounts of users. We updated the conventional password method of login with a safer authentication method, for example, log in through Email OTP, Magic Link, Social Login, Phone SMS and WebAuthn. This likewise cuts the additional progression of you fumbling over your failed to remember password.
 
 ### KEY FEATURES
 
@@ -42,6 +42,8 @@ Activate your plugin in WordPress by clicking on "MojoAuth".
 3. Screenshot3 : Submit Login Page
 4. Screenshot4 : Email at your email provider
 5. Screenshot5 : Success Login Page
+6. Screenshot6 : Social Login
+7. Screenshot7 : SMS Authentication
 
 == Support ==
 
@@ -85,6 +87,13 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 
 == Changelog ==
 
+= 2.3 =
+* Added functionality of SMS
+* Added functionality of Email OTP
+
+= 2.2 =
+* Added language API
+
 = 2.1 =
 * Remove chilkat library dependency
 
@@ -99,6 +108,13 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.3 =
+* Added functionality of SMS
+* Added functionality of Email OTP
+
+= 2.2 =
+* Added language API
 
 = 2.1 =
 * Remove chilkat library dependency

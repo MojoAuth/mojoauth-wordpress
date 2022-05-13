@@ -4,20 +4,20 @@
  * Plugin Name: MojoAuth Passwordless Authentication
  * Plugin URI: https://github.com/MojoAuth/mojoauth-wordpress
  * Description: MojoAuth provides a secure and delightful experience to your customer with passwordless. Here, you'll find comprehensive guides and documentation to help you to start working with MojoAuth APIs.
- * Version: 2.2
+ * Version: 2.3
  * Author: MojoAuth Team
  * Author URI: https://mojoauth.com
  * License: GPL2+
  */
+
 if (!defined('ABSPATH')) {
     exit();
 }
 // If this file is called directly, abort.
 define('MOJOAUTH_ROOT_DIR', plugin_dir_path(__FILE__));
 define('MOJOAUTH_ROOT_URL', plugin_dir_url(__FILE__));
-define('MOJOAUTH_PLUGIN_VERSION', '2.1');
+define('MOJOAUTH_PLUGIN_VERSION', '2.3');
 define('MOJOAUTH_ROOT_SETTING_LINK', plugin_basename(__FILE__));
-
 
 if (!class_exists('mojoAuthPlugin')) {
 ob_start();

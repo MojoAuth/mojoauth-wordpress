@@ -1,7 +1,3 @@
-#toplevel_page_mojoAuth img{
-    width: 16px;
-    height: 16px;
-}
 #mojoauth_admin {
     margin-top: 20px;
 }
@@ -15,17 +11,20 @@
     padding: 10px;
     margin-right: 8px;
 }
-.mojoauth_shortcode_section {
+.mojoauth_rightsection{
     float: left;
     width: 23%;
+}
+.mojoauth_shortcode_section {
     background: #fff;
     padding: 10px;
+    margin-bottom: 10px;
 }
 .mojoauth_shortcode_section input {
     width: 100% !important;
 }
 #mojoauthloginformshortcodemessage{
-	background: #00800073;
+    background: #00800073;
     color: #fff;
     padding: 5px;
     border: 1px solid #008000;
@@ -40,7 +39,7 @@
     vertical-align: top;
     font-weight: bold;
 }
-#mojoauth_admin input,#mojoauth_admin textarea {
+#mojoauth_admin input[type="text"], #mojoauth_admin textarea {
     width: 79%;
     display: inline;
 }
@@ -53,8 +52,9 @@
 }
 .mojoauth_verification.button {
     position: absolute;
-    margin-left: -143px;
-    width: 142px;
+    margin-left: -110px;
+    width: 110px;
+    text-align: center;
 }
 .mojoauth_verification_message {
     margin-left: 21%;
@@ -62,4 +62,21 @@
 }
 .mojoauth_help_text {
     margin-left: 21%;
+}
+.mojoauth_rightfield{
+    margin-left: 22%;
+}
+.mojoauth_active{
+    display:none;
+}
+.mojoauth_rightfield label{
+    width: 50% !important;
+    font-weight:normal !important;
+}
+.mojoauth_subfield label {
+    width: 25% !important;
+    margin-left: 5%;
+    margin-bottom: 10px;
+    margin-top: 8px;
+    font-weight:normal !important;
 }
