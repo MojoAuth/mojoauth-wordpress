@@ -26,7 +26,7 @@ var mjAjaxRequest = function (mojoauthajax, data) {
                     } else if (typeof (mjGetQueryParam('redirect_to')) != "undefined") {
                         window.location.href = mjGetQueryParam('redirect_to');
                     }else{
-                        //location.reload();
+                        location.reload();
                     }
                 }
             }).fail(function (xhr, textStatus, errorThrown) {
