@@ -21,13 +21,7 @@ var mjAjaxRequest = function (mojoauthajax, data) {
                     document.getElementsByClassName('mj-form-error')[0].style.display = "block";
                     document.getElementsByClassName("mj-popup-input-button")[0].disabled = false;
                 }else {
-                    if(window.location.href.includes('wp-login.php')){
-                        window.location.href = mojoauthajax.redirect;
-                    } else if (typeof (mjGetQueryParam('redirect_to')) != "undefined") {
-                        window.location.href = mjGetQueryParam('redirect_to');
-                    }else{
-                        location.reload();
-                    }
+                    window.location.href = mojoauthajax.success_redirect;
                 }
             }).fail(function (xhr, textStatus, errorThrown) {
         mjAjaxRequest(mojoauthajax, data);
