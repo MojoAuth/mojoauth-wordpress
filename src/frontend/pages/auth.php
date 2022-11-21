@@ -85,6 +85,16 @@ if (!class_exists('mojoAuth_Front')) {
                 $integrate_method_email = 'email';
                 $integrate_method_email_type = 'magiclink';
             }
+            $successRedirection = home_url();
+            if(isset($mojoauth_option['login_redirection']) 
+            && ($mojoauth_option['login_redirection'] == "@@other@@") 
+            && isset($mojoauth_option['login_redirection_other']) 
+            && !empty($mojoauth_option['login_redirection_other'])){
+                $successRedirection = $mojoauth_option['login_redirection_other'];
+
+            }else if(isset($mojoauth_option['login_redirection']) && !empty($mojoauth_option['login_redirection'])){
+                $successRedirection = $mojoauth_option['login_redirection'];
+            }
             $mojoauthAjax = array('ajax_url' => admin_url('admin-ajax.php'),
                 'apikey' => $apikey,
                 'language' => $language,
@@ -92,7 +102,8 @@ if (!class_exists('mojoAuth_Front')) {
                     "email" => ($integrate_method_email == "email") ? $integrate_method_email_type : "",
                     "sms" => $integrate_method_sms
                 ),
-                'redirect' => home_url());
+                'redirect' => home_url(),
+                'success_redirect' => $successRedirection);
             if (!is_user_logged_in()) {
                 $state_id = mojoAuthPlugin::data_validation('state_id', $_GET);
                 if (!empty($state_id)) {

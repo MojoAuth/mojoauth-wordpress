@@ -4,7 +4,7 @@ Donate link: https://mojoauth.com/
 Tags: Authentication, Social Login, Email Magic link, Email OTP, SMS Authentication, WordPress plugin, multisite, Passwordless, Auth plugins, Login, SignIn, SignUp, Google Login, Facebook Login, Apple login, phone login, OTP Login, woocommerce
 Requires at least: 3.4
 Tested up to: 6.0
-Stable tag: 2.4
+Stable tag: 2.6
 Requires PHP: 5.6
 License: GPLv2 or later
 
@@ -50,7 +50,7 @@ Activate your plugin in WordPress by clicking on "MojoAuth".
 We offer 24/7 support, reach out to our support team, or refer our product documents
 
 -   Live chat
--   Email Support mailto:help@mojoauth.com
+-   Email Support mailto:support@mojoauth.com
 -   [Support documentation](https://mojoauth.com/docs/)
 
 == Frequently Asked Questions ==
@@ -70,9 +70,6 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 = How MojoAuth is secure? =
 		MojoAuth is fully secured and following best practices to secure our system. We also do follow OIDC standard practices and are compliant with GDPR for data protection.
 
-= Is MojoAuth free of cost? =
-		Yes, MojoAuth is free with all the basic features.
-
 = Is MojoAuth white labeled? =
 		Yes, MojoAuth is a white labeled solution so you can easily customize the look as per your brand identity.
 
@@ -86,6 +83,12 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 		Yes, we do support the webauthn feature and you can enable it from MojoAuth Dashboard. This allows your users to log in with all trusted platforms.
 
 == Changelog ==
+
+= 2.6 =
+* Messaging update for pricing change
+
+= 2.5 =
+* Added Redirection functionlity
 
 = 2.4 =
 * Compatible with WordPress 6.0 version
@@ -111,6 +114,12 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.6 =
+* Messaging update for pricing change
+
+= 2.5 =
+* Added Redirection functionlity
 
 = 2.4 =
 * Compatible with WordPress 6.0 version

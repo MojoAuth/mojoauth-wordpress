@@ -54,6 +54,12 @@ if (!class_exists('mojoAuth_Admin')) {
                 } elseif (!isset($input['public_key']) || empty($input['public_key'])) {
                     $message = __('MojoAuth Required Public Key.');
                     $type = 'error';
+                } elseif (!isset($input['login_redirection']) || empty($input['login_redirection'])) {
+                    $message = __('MojoAuth Required Redirection.');
+                    $type = 'error';
+                } elseif (($input['login_redirection'] == "@@other@@") && (!isset($input['login_redirection_other']) || empty($input['login_redirection_other']))) {
+                    $message = __('MojoAuth Required Redirection Other.');
+                    $type = 'error';
                 } elseif (get_option('mojoauth_option')) {
                     $message = __('Option updated!');
                     $type = 'updated';

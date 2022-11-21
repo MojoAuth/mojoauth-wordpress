@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) {
     exit();
 }
 ?>
+
 <div id="mojoauth_admin">
     <div class="mojoauth_logo">
         <img src="<?php echo MOJOAUTH_ROOT_URL . 'admin/assets/images/logo.svg' ?>" alt="MojoAuth" title="MojoAuth">
@@ -13,7 +14,7 @@ if (!defined('ABSPATH')) {
     settings_errors();
     ?><br/>
     <div class="mojoauth_config">
-        <h2>Configuration</h2>
+        <h2><?php _e('Configuration','mojoauth');?></h2>
         <hr/>
         <form method="post" action="options.php"> 
             <?php
@@ -87,7 +88,43 @@ if (!defined('ABSPATH')) {
                         <?php _e('SMS Authentication', 'mojoauth'); ?>
                     </label>
                 </div>
-            </div>
+                </div>
+                <div class="mojoauth_field mojoauth_active">
+                <label for="mojoauth_login_redirection">
+                    <?php _e('Custom Redirection:', 'mojoauth'); ?>
+                </label>
+                <select id="mojoauth_login_redirection" name="mojoauth_option[login_redirection]">
+                    <option value=""> <?php _e('--- SELECT --- ', 'mojoauth');?></option>
+                    <?php 
+                    $options = '';
+                    $login_redirection = isset($mojoauth_option['login_redirection'])?$mojoauth_option['login_redirection']:"";
+                    query_posts('&showposts=-1&order=ASC');
+                    while (have_posts()) {
+                        the_post();
+                        ob_start();
+                        the_taxonomies(); 
+                        $result = ob_get_contents();
+                        ob_end_clean();
+                        $options .= '<option value="' . get_permalink().'"';
+                        if((get_permalink() != "") && ($login_redirection == get_permalink())){
+                            $options .= ' selected="selected"';
+                        }
+                        $options .= '>' . get_the_title() . '</option>';
+                    };                    
+                    $options .= '<option value="@@other@@"';
+                    if($login_redirection == "@@other@@"){
+                            $options .= ' selected="selected"';
+                        }
+                        $options .= '>'. __('Other', 'mojoauth').'</option>';
+                        echo $options;
+                        ?>
+                </select>
+                <div class="mojoauth_help_text"><?php _e('Select you page where you wanted to redirect after successful authentication. By default MojoAuth will redirect you to the root domain.', 'mojoauth'); ?></div>
+                </div>
+                <div class="mojoauth_field mojoauth_active">
+                    <label for="mojoauth_login_redirection">&nbsp;</label>
+                    <input type="text" id="mojoauth_login_redirection_other" name="mojoauth_option[login_redirection_other]" value="<?php echo isset($mojoauth_option['login_redirection_other']) ? esc_attr($mojoauth_option['login_redirection_other']) : ""; ?>" placeholder="https://example.com/path">
+                </div>
             <hr>
             <div class="mojoauth_field">
                 <?php submit_button(); ?>
@@ -96,17 +133,17 @@ if (!defined('ABSPATH')) {
     </div>
     <div class="mojoauth_rightsection">
          <div class="mojoauth_shortcode_section">
-            <h2>Help</h2>
+            <h2><?php _e('Help','mojoauth');?></h2>
             <hr/>
-            <p>Configure your desired Social provider i.e. Google, Facebook, Apple, etc. from <a href="https://mojoauth.com/dashboard/marketplace/list" target="_blank">Dashboard</a> to use Social Login with your provider</p>
+            <p><?php _e('Configure your desired Social provider i.e. Google, Facebook, Apple, etc. from <a href="https://mojoauth.com/dashboard/marketplace/list" target="_blank">Dashboard</a> to use Social Login with your provider</p>','mojoauth');?>
         </div>
 
         <div class="mojoauth_shortcode_section">
-            <h2>Shortcode</h2>
+            <h2><?php _e('Shortcode','mojoauth');?></h2>
             <hr/>
-            <h4>Editor Shortcode</h4>
+            <h4><?php _e('Editor Shortcode','mojoauth');?></h4>
             <input type="text" value="[mojoauth]" id="mojoauthloginformshortcodeeditor" readonly="readonly"	/>
-            <h4>PHP Shortcode</h4>
+            <h4><?php _e('PHP Shortcode','mojoauth');?></h4>
             <input type="text" value="&lt;?php echo do_shortcode('[mojoauth]'); ?&gt;" id="mojoauthloginformshortcodephp" readonly="readonly"	/>
 
         </div>

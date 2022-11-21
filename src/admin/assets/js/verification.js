@@ -65,6 +65,11 @@ jQuery(document).ready(function ($) {
                     } else {
                         $('#mojoauth_integrate_method_email_active').slideUp();
                     }
+                    if($('#mojoauth_login_redirection').val() == "@@other@@"){
+                        $('#mojoauth_login_redirection_other').parent().show();
+                    }else{
+                        $('#mojoauth_login_redirection_other').parent().hide();
+                    }
                 });
             } else {
                 clearInterval(validationLoading);
@@ -96,4 +101,11 @@ jQuery(document).ready(function ($) {
             $('#mojoauth_integrate_method_email_active').slideUp();
         }
     });
+    $('#mojoauth_login_redirection').on("change",function(){
+        if($('#mojoauth_login_redirection').val() == "@@other@@"){
+            $('#mojoauth_login_redirection_other').parent().show();
+        }else{
+            $('#mojoauth_login_redirection_other').parent().hide();
+        }
+    })
 });
