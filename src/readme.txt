@@ -4,7 +4,7 @@ Donate link: https://mojoauth.com/
 Tags: Authentication, Social Login, Email Magic link, Email OTP, SMS Authentication, WordPress plugin, multisite, Passwordless, Auth plugins, Login, SignIn, SignUp, Google Login, Facebook Login, Apple login, phone login, OTP Login, woocommerce
 Requires at least: 3.4
 Tested up to: 6.0
-Stable tag: 2.6
+Stable tag: 2.7
 Requires PHP: 5.6
 License: GPLv2 or later
 
@@ -84,6 +84,10 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 
 == Changelog ==
 
+= 2.7 =
+* Support same page redirection functionality
+* Minor improvements and bug fixes
+
 = 2.6 =
 * Messaging update for pricing change
 
@@ -114,6 +118,10 @@ We offer 24/7 support, reach out to our support team, or refer our product docum
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.7 =
+* Support same page redirection functionality
+* Minor improvements and bug fixes
 
 = 2.6 =
 * Messaging update for pricing change

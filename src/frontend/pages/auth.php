@@ -11,20 +11,51 @@ if (!class_exists('mojoAuth_Front')) {
      * The main class and initialization point of the plugin.
      */
     class mojoAuth_Front {
-
+        private $redirect = false;
         /**
          * Constructor
          */
         public function __construct() {
+            
             add_action('login_enqueue_scripts', array($this, 'mojoauth_enqueue_script'), 10);
             add_action('wp_ajax_mojoauth_login', array($this, 'mojoauth_login'));
             add_action('wp_ajax_nopriv_mojoauth_login', array($this, 'mojoauth_login'));
-            add_action('init', array($this, 'mojoauth_enqueue_script'));
             add_shortcode('mojoauth', array($this, 'mojoauth_short_code'));
             add_filter( 'pr_page_content', array($this, 'mojoauth_short_code'));
             add_action('woocommerce_init', array($this, 'woocommerce_init'));
+            add_action('init', array($this, 'mojoauth_state_id_handler'));
         }
-
+        /**
+         * state_id handler
+         */
+        function mojoauth_state_id_handler(){
+            $state_id = mojoAuthPlugin::data_validation('state_id', $_GET);
+            if (!empty($state_id)) {
+                //call API
+                $mojoauth_option = get_option('mojoauth_option');
+                $apikey = isset($mojoauth_option["apikey"]) ? trim($mojoauth_option["apikey"]) : "";
+                if (!empty($apikey)) {
+                    require_once(MOJOAUTH_ROOT_DIR . "mojoAuthWPClient.php");
+                    $client = new mojoAuthWPClient($apikey);
+                    $mojoAutoUserResponse = $client->checkLoginStatus($state_id);
+                    $mojoAutoUser = isset($mojoAutoUserResponse['response']) ? json_decode($mojoAutoUserResponse['response']) : false;
+                    if (isset($mojoAutoUser->authenticated) && ($mojoAutoUser->authenticated == true) && isset($mojoAutoUser->user->identifier) && !empty($mojoAutoUser->user->identifier)) {
+                        add_action('wp_footer', array($this, 'mojoauth_enqueue_script'), 10);
+                        ?>
+                        <script>
+                            setTimeout(function () {
+                                mjAjaxRequest(mojoauthajax, {
+                                    "action": "mojoauth_login",
+                                    "mojoauth_token": "<?php echo $mojoAutoUser->oauth->access_token;?>",
+                                    "mojoauth_identifier": "<?php echo $mojoAutoUser->user->identifier;?>"
+                                });
+                            }, 2000);
+                        </script>
+                        <?php
+                    }
+                }
+            }
+        }
         function woocommerce_init() {
             add_filter('woocommerce_checkout_fields', array($this, 'mojoauth_woocommerce_remove_checkout_fields'));
             add_action('woocommerce_edit_account_form_end', array($this, 'mojoauth_myaccount_required_fields'));
@@ -37,6 +68,9 @@ if (!class_exists('mojoAuth_Front')) {
          * create and generate ShortCode login form
          */
         public function mojoauth_short_code($atts) {
+            if(isset($atts["redirect"]) && !empty($atts["redirect"])){
+                $this->redirect = $atts["redirect"];
+            }
             return $this->mojoauth_login_form();
         }
 
@@ -48,8 +82,7 @@ if (!class_exists('mojoAuth_Front')) {
         }
 
         public function mojoauth_woocommerce_remove_checkout_fields($fields) {
-            $readonly = ['readonly' => 'readonly'];
-            $fields['billing']['billing_email']['custom_attributes'] = $readonly;
+            $fields['billing']['billing_email']['custom_attributes'] = ['readonly' => 'readonly'];
             return $fields;
         }
 
@@ -63,7 +96,9 @@ if (!class_exists('mojoAuth_Front')) {
                 }
             }
         }
-
+        /**
+         * generate login form
+         */
         public function mojoauth_login_form() {
             if (!is_user_logged_in()) {
                 add_action('wp_footer', array($this, 'mojoauth_enqueue_script'), 10);
@@ -91,7 +126,8 @@ if (!class_exists('mojoAuth_Front')) {
             && isset($mojoauth_option['login_redirection_other']) 
             && !empty($mojoauth_option['login_redirection_other'])){
                 $successRedirection = $mojoauth_option['login_redirection_other'];
-
+            }else if($mojoauth_option['login_redirection']=="@@samepage@@"){
+                $successRedirection = $mojoauth_option['login_redirection'];
             }else if(isset($mojoauth_option['login_redirection']) && !empty($mojoauth_option['login_redirection'])){
                 $successRedirection = $mojoauth_option['login_redirection'];
             }
@@ -103,48 +139,11 @@ if (!class_exists('mojoAuth_Front')) {
                     "sms" => $integrate_method_sms
                 ),
                 'redirect' => home_url(),
-                'success_redirect' => $successRedirection);
-            if (!is_user_logged_in()) {
-                $state_id = mojoAuthPlugin::data_validation('state_id', $_GET);
-                if (!empty($state_id)) {
-                    //call API
-                    $mojoauth_option = get_option('mojoauth_option');
-                    $apikey = isset($mojoauth_option["apikey"]) ? trim($mojoauth_option["apikey"]) : "";
-                    if (!empty($apikey)) {
-                        require_once(MOJOAUTH_ROOT_DIR . "mojoAuthWPClient.php");
-                        $client = new mojoAuthWPClient($apikey);
-                        $mojoAutoUserResponse = $client->checkLoginStatus($state_id);
-                        $mojoAutoUser = isset($mojoAutoUserResponse['response']) ? json_decode($mojoAutoUserResponse['response']) : false;
-                        if (isset($mojoAutoUser->authenticated) && ($mojoAutoUser->authenticated == true) && isset($mojoAutoUser->user->identifier) && !empty($mojoAutoUser->user->identifier)) {
-                            $mojoauthAjax['action'] = 'mojoauth_login';
-                            $mojoauthAjax['mojoauth_token'] = $mojoAutoUser->oauth->access_token;
-                            $mojoauthAjax['mojoauth_identifier'] = $mojoAutoUser->user->identifier;
-                            add_action('wp_footer', array($this, 'mojoauth_stateid_js_handler'), 11);
-                        }
-                    }
-                }
-            }
+                'success_redirect' => $this->redirect?$this->redirect:$successRedirection);
+            
             wp_enqueue_script('mojoauth-js', 'https://cdn.mojoauth.com/js/mojoauth.min.js', false, MOJOAUTH_PLUGIN_VERSION);
             wp_enqueue_script('mojoauthajax-script', MOJOAUTH_ROOT_URL . 'frontend/assets/js/loginpage.js', array('mojoauth-js','jquery'), MOJOAUTH_PLUGIN_VERSION);
             wp_localize_script('mojoauthajax-script', 'mojoauthajax', $mojoauthAjax);
-        }
-
-        /**
-         * StateID handler from js
-         */
-        function mojoauth_stateid_js_handler() {
-            ?>
-            <script>
-                setTimeout(function () {
-                    mjAjaxRequest(mojoauthajax, {
-                        "action": mojoauthajax.action,
-                        "mojoauth_token": mojoauthajax.mojoauth_token,
-                        "mojoauth_identifier": mojoauthajax.mojoauth_identifier
-                    });
-                }, 2000);
-            </script>
-            <?php
-
         }
 
         /**
