@@ -80,3 +80,6 @@
     margin-top: 8px;
     font-weight:normal !important;
 }
+#mojoauth_admin .mojoauth_shortcode_section textarea {
+    width: 100%;
+}

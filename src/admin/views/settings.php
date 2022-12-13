@@ -93,11 +93,21 @@ if (!defined('ABSPATH')) {
                 <label for="mojoauth_login_redirection">
                     <?php _e('Custom Redirection:', 'mojoauth'); ?>
                 </label>
+                <?php
+                $login_redirection = isset($mojoauth_option['login_redirection'])?$mojoauth_option['login_redirection']:"";
+                
+                ?>
                 <select id="mojoauth_login_redirection" name="mojoauth_option[login_redirection]">
                     <option value=""> <?php _e('--- SELECT --- ', 'mojoauth');?></option>
+                    <option value="@@samepage@@"
+                    <?php 
+                    if($login_redirection == "@@samepage@@"){
+                        ?> selected="selected"<?php
+                    }
+                    ?>
+                    > <?php _e('Same Page', 'mojoauth');?></option>
                     <?php 
                     $options = '';
-                    $login_redirection = isset($mojoauth_option['login_redirection'])?$mojoauth_option['login_redirection']:"";
                     query_posts('&showposts=-1&order=ASC');
                     while (have_posts()) {
                         the_post();

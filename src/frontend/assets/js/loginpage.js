@@ -21,7 +21,18 @@ var mjAjaxRequest = function (mojoauthajax, data) {
                     document.getElementsByClassName('mj-form-error')[0].style.display = "block";
                     document.getElementsByClassName("mj-popup-input-button")[0].disabled = false;
                 }else {
-                    window.location.href = mojoauthajax.success_redirect;
+                    if(mojoauthajax.success_redirect == "@@samepage@@"){
+                        let samePageURL = window.location.href;
+                        let params = new URLSearchParams(new URL(samePageURL).search);
+                        params.delete('state_id');
+                        let newUrl =  samePageURL.slice(0,samePageURL.indexOf('?'));
+                        if(params.toString()!==""){
+                            newUrl+="?"+params.toString();
+                        }
+                        window.location.href = newUrl.replace("wp-login.php","");
+                    }else{
+                        window.location.href = mojoauthajax.success_redirect;
+                    }
                 }
             }).fail(function (xhr, textStatus, errorThrown) {
         mjAjaxRequest(mojoauthajax, data);
@@ -148,7 +159,7 @@ var mojoauthInterval = setInterval(function () {
         }
         var mojoauthOptions = {
             language: mojoauthajax.language,
-            redirect_url: mojoauthajax.redirect,
+            redirect_url: (mojoauthajax.success_redirect == "@@samepage@@")?window.location.href:mojoauthajax.redirect,
             source: []
         };
         if (mojoauthajax.integrate_method.sms == "sms") {
